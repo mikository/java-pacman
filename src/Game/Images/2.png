@@ -1,0 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package classes;
+
+
+/**
+ *
+ * @author Mike Babich
+ */
+public class SavingsAccount extends BankAccount implements IBankAccount {
+    public int numberOfDeposits = 0;
+    public final double INTEREST = .05;
+    
+    public SavingsAccount(double initialBalance) throws BankAccountExceptions{
+        super(initialBalance);
+    }
+    
+    public void withdrawalAmount(double amount){
+       if(super.accountBalance >= amount){
+           super.accountBalance -= amount;
+       }
+       else{
+           System.out.println("The account cannot be overdrawn");
+       }
+    }
+    public void depositAmount(double amount) throws BankAccountExceptions{
+        if(amount < 0)
+            throw new BankAccountExceptions("Negative deposit");
+        super.accountBalance += amount;
+        numberOfDeposits++;
+        if(numberOfDeposits%5==0){
+            super.accountBalance -= super.accountBalance*INTEREST;
+        }
+    }
+    public double getBalance(){
+        return super.accountBalance;
+    }
+    public String printBalance(){
+        return "Your savings current balance is " + super.accountBalance + " dollars";
+    }
+}
